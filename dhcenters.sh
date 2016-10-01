@@ -1,4 +1,4 @@
-echo "Center;Location" > dhcenters.csv
+echo "Center,Location" > dhcenters.csv
 for i in $(seq 0 6); do 
   wget "http://dhcenternet.org/centers?page=$i" -O "$i.html" 
   cat $i.html |hxnormalize -x -l 1000|hxselect tbody|hxselect div.views-field-realname|hxselect span.field-content|sed 's/<span/\n\<span/g'|grep -v ^$ > "$i.names"
@@ -8,6 +8,6 @@ for i in $(seq 0 6); do
   for a in $(seq 1 $(cat $i.names|wc -l)); do 
     name=$(cat $i.parsednames|head -n$a|tail -n1); 
     loc=$(cat $i.parsedlocations|head -n$a|tail -n1); 
-    echo "$name;$loc" >> dhcenters.csv; 
+    echo -e "\"$name\",\"$loc\"" >> dhcenters.csv; 
   done
 done
