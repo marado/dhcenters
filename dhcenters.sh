@@ -1,3 +1,10 @@
+# Check dependencies
+if ! command -v hxnormalize >/dev/null 2>&1 ; then
+  echo "This script depends on html-xml-utils, which doesn't seem to be available on the system.";
+  exit 0;
+fi
+
+# Actual work
 echo "Center,Location" > dhcenters.csv
 for i in $(seq 0 6); do 
   wget "http://dhcenternet.org/centers?page=$i" -O "$i.html" 
